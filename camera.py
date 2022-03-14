@@ -75,8 +75,7 @@ class camera(QObject):
                 """
                 rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgb.shape
-                bytesPerLine = ch * w
-                img = QImage(rgb.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                img = QImage(rgb.data, w, h, ch * w, QImage.Format_RGB888)
                 resizedImg = img.scaled(self.size.width(), self.size.height(), Qt.KeepAspectRatio)
                 self.sendImage.emit(resizedImg)
             else:

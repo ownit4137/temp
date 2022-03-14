@@ -10,16 +10,17 @@ class CWidget(QWidget):
 
     def __init__(self):
         super().__init__()
-        size = QSize(600, 500)
-        self.initUI(size)
+        self.initUI()
         self.camera = camera(self, QSize(self.frm.width(), self.frm.height()))
 
-    def initUI(self, size):
+    def initUI(self):
+        size = QSize(600, 500)
         vbox = QVBoxLayout()
+
         # cam on, off button
         self.btn = QPushButton('start cam', self)
         self.btn.setCheckable(True)
-        self.btn.clicked.connect(self.onoffCam)
+        self.btn.clicked.connect(self.turnCam)
         vbox.addWidget(self.btn)
 
         """
@@ -51,21 +52,14 @@ class CWidget(QWidget):
         self.setWindowTitle('OpenCV + PyQt5')
         self.show()
 
-    def onoffCam(self, e):
+    def turnCam(self, e):
         if self.btn.isChecked():
-            self.btn.setText('stop cam')
+            self.btn.setText('stop')
             self.camera.startCam()
         else:
-            self.btn.setText('start cam')
+            self.btn.setText('start')
             self.camera.stopCam()
 
-    def detectOption(self, id):
-        if self.grp.button(id).isChecked():
-            self.bDetect[id] = True
-        else:
-            self.bDetect[id] = False
-        # print(self.bDetect)
-        self.camera.setOption(self.bDetect)
 
     def recvImage(self, img):
         self.frm.setPixmap(QPixmap.fromImage(img))
